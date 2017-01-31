@@ -12,11 +12,11 @@ class ProductController extends Controller {
             delete req.query.sort;
         }
         if (req.query.page) {
-            options.page = req.query.page;
+            options.page = +req.query.page;
             delete req.query.page;
         }
         if (req.query.limit) {
-            options.limit = req.query.limit;
+            options.limit = +req.query.limit;
             delete req.query.limit;
         }
         let query = {};
