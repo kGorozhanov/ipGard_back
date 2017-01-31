@@ -8,13 +8,7 @@ var async = require('async');
 
 class CategoryController extends Controller {
     find(req, res, next) {
-        let query = {};
-        if (req.query) {
-            for (let key in req.query) {
-                query[key] = new RegExp('^' + req.query[key]);
-            }
-        }
-        return this.model.find(query)
+        return this.model.find(req.query)
             .then(collection => {
                 let role = req.user.role
                 if (role !== 'admin') {
