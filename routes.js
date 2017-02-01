@@ -4,6 +4,7 @@ const router = new Router();
 
 const user = require('./model/user/user-router');
 const product = require('./model/product/product-router');
+const sale = require('./model/sale/sale-router');
 const category = require('./model/category/category-router');
 const field = require('./model/field/field-router');
 const type = require('./model/type/type-router');
@@ -25,6 +26,8 @@ router.use('/auth', require('./auth'));
 router.use('/users', user);
 
 router.use('/products', product);
+
+router.use('/sales', sale);
 
 router.use('/categories', category);
 

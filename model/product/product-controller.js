@@ -1,6 +1,7 @@
 var Controller = require('../../lib/controller');
 var Product = require('./product-facade');
 var Document = require('./../document/document-facade');
+var Sale = require('./../sale/sale-facade');
 var async = require('async');
 
 class ProductController extends Controller {
@@ -25,10 +26,27 @@ class ProductController extends Controller {
                 query[key] = new RegExp('^' + req.query[key]);
             }
         }
-        console.log(options)
-        return this.model.paginate(query, options)
-            .then(collection => res.status(200).json(collection))
-            .catch(err => next(err));
+        if (query.serialNumber) {
+            return Sale.findOne({serialNumber: query.serialNumber})
+                .then(sale => {
+                    if(!sale) {
+                        return {
+                            docs: [],
+                            total: 0,
+                            limit: options.limit,
+                            page: 1,
+                            pages: 1
+                        }
+                    }
+                    return this.model.paginate({_id: sale.product}, options)
+                })
+                .then(collection => res.status(200).json(collection))
+                .catch(err => next(err));
+        } else {
+            return this.model.paginate(query, options)
+                .then(collection => res.status(200).json(collection))
+                .catch(err => next(err));
+        }
     }
 
     remove(req, res, next) {
