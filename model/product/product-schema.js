@@ -7,7 +7,6 @@ const productSchema = new Schema({
     partNumber: String,
     upc: String,
     description: String,
-    serialNumber: String,
     dateCreate: { type: Date, default: Date.now }
 });
 
