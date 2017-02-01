@@ -22,7 +22,7 @@ class SaleController extends Controller {
         let query = {};
         if (req.query) {
             for (let key in req.query) {
-                if(key !== 'sale') {
+                if(key !== 'product') {
                     query[key] = new RegExp('^' + req.query[key]);
                 } else {
                     query[key] = req.query[key];
