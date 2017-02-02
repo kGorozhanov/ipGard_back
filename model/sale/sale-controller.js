@@ -27,8 +27,8 @@ class SaleController extends Controller {
                 } else if(key === 'date') {
                     let date = new Date(req.query[key]);
                     query[key] = {
-                        $gte: date.toISOString,
-                        $lt: date.setDate(date.getDay() + 1).toISOString()
+                        $gte: date.toISOString(),
+                        $lt: new Date(date.setDate(date.getDay() + 1)).toISOString()
                     };
                 } else {
                     query[key] = new RegExp('^' + req.query[key]);
