@@ -24,12 +24,12 @@ class SaleController extends Controller {
             for (let key in req.query) {
                 if(key === 'product') {
                     query[key] = req.query[key];
-                // } else if(key === 'date') {
-                //     let date = new Date(req.query[key]);
-                //     query[key] = {
-                //         $gte: date,
-                //         $lt: new Date(date.setDate(date.getDay() + 1))
-                //     };
+                } else if(key === 'date') {
+                    let date = new Date(req.query[key]);
+                    query[key] = {
+                        $gte: date.toISOString(),
+                        $lt: new Date(date.setDate(date.getDay() + 1)).toISOString()
+                    };
                 } else {
                     query[key] = new RegExp('^' + req.query[key]);
                 }
