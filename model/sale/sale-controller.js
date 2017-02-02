@@ -26,10 +26,10 @@ class SaleController extends Controller {
                     query[key] = req.query[key];
                 } else if (key === 'dateFrom') {
                     query.date = query.date || {};
-                    query.date[$gte] = req.query[key];
+                    query.date['$gte'] = req.query[key];
                 } else if (key === 'dateTo') {
                     query.date = query.date || {};
-                    query.date[$lte] = req.query[key];
+                    query.date['$lte'] = req.query[key];
                 } else {
                     query[key] = new RegExp('^' + req.query[key]);
                 }
