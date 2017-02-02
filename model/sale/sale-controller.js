@@ -22,14 +22,14 @@ class SaleController extends Controller {
         let query = {};
         if (req.query) {
             for (let key in req.query) {
-                if(key === 'product') {
+                if (key === 'product') {
                     query[key] = req.query[key];
-                } else if(key === 'date') {
-                    let date = new Date(req.query[key]);
-                    query[key] = {
-                        $gte: date.toISOString(),
-                        $lte: new Date(date.setDate(date.getDay() + 1)).toISOString()
-                    };
+                } else if (key === 'dateFrom') {
+                    query.date = query.date || {};
+                    query.date[$gte] = req.query[key];
+                } else if (key === 'dateTo') {
+                    query.date = query.date || {};
+                    query.date[$lte] = req.query[key];
                 } else {
                     query[key] = new RegExp('^' + req.query[key]);
                 }
