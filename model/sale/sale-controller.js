@@ -27,7 +27,7 @@ class SaleController extends Controller {
                 } else if(key === 'date') {
                     let date = new Date(req.query[key]);
                     query[key] = {
-                        $gte: date.getTime()
+                        $lt: date.getTime()
                     };
                     console.log(query[key])
                 } else {
