@@ -60,6 +60,9 @@ class CategoryController extends Controller {
     }
 
     create(req, res, next) {
+        if(req.body.relatedCategory) {
+            delete req.body.relatedCategory.fields;
+        }
         this.model.create(req.body)
             .then(doc => {
                 if (doc.type === 'Gallery') {
