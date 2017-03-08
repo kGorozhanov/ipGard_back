@@ -9,8 +9,6 @@ var async = require('async');
 class CategoryController extends Controller {
     find(req, res, next) {
         return this.model.find(req.query)
-            .then(collection => this.model.populate({path: 'subcategoryField'}))
-            .then(collection => this.model.populate({path: 'relatedCategory'}))
             .then(collection => {
                 let role = req.user.role
                 if (role !== 'admin') {
