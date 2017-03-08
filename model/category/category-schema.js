@@ -8,7 +8,7 @@ const categorySchema = new Schema({
     sales: { type: Boolean, default: false },
     dateCreate: { type: Date, default: Date.now },
     published: { type: Boolean, default: false },
-    type: {type: String, required: true, enum: ['Table', 'Form', 'Gallery', 'Tabe with subcategory']},
+    type: {type: String, required: true, enum: ['Table', 'Form', 'Gallery', 'Table with subcategory']},
     relatedCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     subcategoryField: { type: mongoose.Schema.Types.ObjectId, ref: 'Field', required: false}
 });
