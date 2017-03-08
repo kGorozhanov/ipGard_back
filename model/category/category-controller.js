@@ -48,7 +48,7 @@ class CategoryController extends Controller {
                         hashArray[categoryId].fields = [];
                     }
                     delete field.category;
-                    hashArray[field.category._id].fields.push(field);
+                    hashArray[categoryId].fields.push(field);
                 }
                 for(let key in hashArray) {
                     result.push(hashArray[key]);
