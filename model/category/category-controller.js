@@ -26,12 +26,37 @@ class CategoryController extends Controller {
         return this.model.findById(req.params.id)
             .then(doc => {
                 if (!doc) { return res.status(404).end(); }
-                if(req.user.role !== 'admin' && (req.user.role.indexOf('production') === 0 && !doc.production || req.user.role.indexOf('sales') === 0 && !doc.sales)) {
+                if (req.user.role !== 'admin' && (req.user.role.indexOf('production') === 0 && !doc.production || req.user.role.indexOf('sales') === 0 && !doc.sales)) {
                     return res.status(401).end();
                 }
                 return res.status(200).json(doc);
             })
             .catch(err => next(err));
+    }
+
+    findForRelations(req, res, next) {
+        Field.find({useAsSubcategory: true})
+            .then(fields => Field.populate(fields, { path: 'category' }))
+            .then(fields => {
+                let hashArray = {};
+                let result = [];
+                for(let i = 0; i < fields.length; i++) {
+                    let field = fields[i];
+                    let categoryId = field.category._id.toString();
+                    if(!hashArray.hasOwnProperty(categoryId)) {
+                        hashArray[categoryId] = field.category;
+                        hashArray[categoryId].fields = [];
+                    }
+                    delete field.category;
+                    hashArray[field.category._id].fields.push(field);
+                }
+                for(let key in hashArray) {
+                    result.push(hashArray[key]);
+                }
+                res.status(200).json(result);
+            })
+            .catch(err => next(err));
+
     }
 
     create(req, res, next) {
