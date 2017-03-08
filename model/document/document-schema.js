@@ -7,6 +7,7 @@ const Category = require('../category/category-schema');
 const documentSchema = new Schema({
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    subcategoryField: { type: String, required: false },
     fields: [{
         field: { type: mongoose.Schema.Types.ObjectId, ref: 'Field' },
         value: mongoose.Schema.Types.Mixed
