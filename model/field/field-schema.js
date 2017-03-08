@@ -6,6 +6,7 @@ const Category = require('../category/category-schema');
 const fieldSchema = new Schema({
     title: String,
     required: Boolean,
+    useAsSubcategory: { type: Boolean, default: false },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
     options: [String]

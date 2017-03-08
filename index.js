@@ -58,6 +58,6 @@ app.listen(config.server.port, () => {
 seed.populateAdmin();
 seed.populateTypes();
 
-filereader(21, 30);
+filereader(3, 0);
 
 module.exports = app;
