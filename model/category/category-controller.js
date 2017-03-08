@@ -41,7 +41,7 @@ class CategoryController extends Controller {
                 let hashArray = {};
                 let result = [];
                 for(let i = 0; i < fields.length; i++) {
-                    let field = fields[i];
+                    let field = fields[i].toObject();
                     let categoryId = field.category._id.toString();
                     if(!hashArray.hasOwnProperty(categoryId)) {
                         hashArray[categoryId] = field.category;
@@ -53,7 +53,6 @@ class CategoryController extends Controller {
                 for(let key in hashArray) {
                     result.push(hashArray[key]);
                 }
-                console.log(result)
                 res.status(200).json(result);
             })
             .catch(err => next(err));
