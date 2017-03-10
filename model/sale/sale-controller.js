@@ -80,13 +80,14 @@ class SaleController extends Controller {
                 if (req.query.sort) {
                     collection.sort((a, b) => {
                         let order;
-                        if (req.query.sort.indexOf('-') === 0) {
-                            req.query.sort.slice(0, 1);
+                        let filter = req.query.sort;
+                        if (filter.indexOf('-') === 0) {
+                            filter = filter.slice(1);
                             order = false;
                         } else {
                             order = true;
                         }
-                        let filter = req.query.sort.split('.');
+                        filter = filter.split('.');
                         let copyA = a;
                         let copyB = b;
                         for (let i = 0; i < filter.length; i++) {
