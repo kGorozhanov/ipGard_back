@@ -26,11 +26,11 @@ class SaleController extends Controller {
             }
             if (req.query.dateFrom) {
                 query.date = query.date || {};
-                query.date['$gte'] = req.query[key];
+                query.date['$gte'] = req.query['dateFrom'];
             }
             if (req.query.dateTo) {
                 query.date = query.date || {};
-                query.date['$lte'] = req.query[key];
+                query.date['$lte'] = req.query['dateTo'];
             }
             if (req.query.product) {
                 query.product = req.query['product'];
