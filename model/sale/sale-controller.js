@@ -35,6 +35,12 @@ class SaleController extends Controller {
             if (req.query.product) {
                 query.product = req.query['product'];
             }
+            if (req.query.salesOrder) {
+                query.salesOrder = new RegExp(req.query['salesOrder'], 'i');
+            }
+            if (req.query.clientName) {
+                query.clientName = new RegExp(req.query['clientName'], 'i');
+            }
             // for (let key in req.query) {
             //     if (key === 'product') {
             //         query[key] = req.query[key];
