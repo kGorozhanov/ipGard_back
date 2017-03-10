@@ -78,32 +78,44 @@ class SaleController extends Controller {
                     collection = collection.filter(doc => description.test(doc.product.description));
                 }
                 if (req.query.sort) {
-                    collection.sort((a, b) => {
-                        let order;
-                        let filter = req.query.sort;
-                        if (filter.indexOf('-') === 0) {
-                            filter = filter.slice(1);
-                            order = false;
-                        } else {
-                            order = true;
-                        }
-                        filter = filter.split('.');
-                        let copyA = a;
-                        let copyB = b;
-                        for (let i = 0; i < filter.length; i++) {
-                            copyA = copyA[filter[i]];
-                            copyB = copyB[filter[i]];
-                        }
-                        copyA = copyA.toLowerCase();
-                        copyB = copyB.toLowerCase();
-                        if (copyA < copyB) {
-                            return order ? -1 : 1;
-                        }
-                        if (copyA > copyB) {
-                            return order ? 1 : -1;
-                        }
-                        return 0;
-                    })
+                    let order;
+                    let filter = req.query.sort;
+                    if (filter.indexOf('-') === 0) {
+                        filter = filter.slice(1);
+                        order = false;
+                    } else {
+                        order = true;
+                    }
+                    filter = filter.split('.');
+                    if (filter[0] === 'date') {
+                        collection.sort((a, b) => {
+                            if (a < b) {
+                                return order ? -1 : 1;
+                            }
+                            if (a > b) {
+                                return order ? 1 : -1;
+                            }
+                            return 0;
+                        })
+                    } else {
+                        collection.sort((a, b) => {
+                            let copyA = a;
+                            let copyB = b;
+                            for (let i = 0; i < filter.length; i++) {
+                                copyA = copyA[filter[i]];
+                                copyB = copyB[filter[i]];
+                            }
+                            copyA = copyA.toLowerCase();
+                            copyB = copyB.toLowerCase();
+                            if (copyA < copyB) {
+                                return order ? -1 : 1;
+                            }
+                            if (copyA > copyB) {
+                                return order ? 1 : -1;
+                            }
+                            return 0;
+                        })
+                    }
                 }
                 let pagination = {
                     total: collection.length,
