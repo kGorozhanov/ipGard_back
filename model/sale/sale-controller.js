@@ -32,6 +32,9 @@ class SaleController extends Controller {
                 query.date = query.date || {};
                 query.date['$lte'] = req.query[key];
             }
+            if (req.query.product) {
+                query.product = req.query['product'];
+            }
             // for (let key in req.query) {
             //     if (key === 'product') {
             //         query[key] = req.query[key];
