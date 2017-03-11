@@ -63,6 +63,8 @@ class SaleController extends Controller {
         //     .catch(err => next(err));
         return this.model.find(query)
             .then(collection => this.model.populate(collection, { path: 'product' }))
+            .then(collection => this.model.populate(collection, { path: 'fields.field' }))
+            .then(collection => this.model.populate(collection, { path: 'fields.field.type', model: 'Type' }))
             .then(collection => {
                 if (req.query.model) {
                     let model = new RegExp(req.query.model, 'i');
