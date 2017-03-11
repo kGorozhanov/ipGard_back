@@ -35,22 +35,22 @@ class CategoryController extends Controller {
     }
 
     findForRelations(req, res, next) {
-        Field.find({useAsSubcategory: true})
+        Field.find({ useAsSubcategory: true })
             .then(fields => Field.populate(fields, { path: 'category' }))
             .then(fields => {
                 let hashArray = {};
                 let result = [];
-                for(let i = 0; i < fields.length; i++) {
+                for (let i = 0; i < fields.length; i++) {
                     let field = fields[i].toObject();
                     let categoryId = field.category._id.toString();
-                    if(!hashArray.hasOwnProperty(categoryId)) {
+                    if (!hashArray.hasOwnProperty(categoryId)) {
                         hashArray[categoryId] = field.category;
                         hashArray[categoryId].fields = [];
                     }
                     delete field.category;
                     hashArray[categoryId].fields.push(field);
                 }
-                for(let key in hashArray) {
+                for (let key in hashArray) {
                     result.push(hashArray[key]);
                 }
                 res.status(200).json(result);
@@ -60,7 +60,7 @@ class CategoryController extends Controller {
     }
 
     create(req, res, next) {
-        if(req.body.relatedCategory) {
+        if (req.body.relatedCategory) {
             delete req.body.relatedCategory.fields;
         }
         this.model.create(req.body)
@@ -68,15 +68,51 @@ class CategoryController extends Controller {
                 if (doc.type === 'Gallery') {
                     Type.findOne({ value: 'img' })
                         .then(type => {
-                            var field = {
+                            let field = {
                                 title: 'Image',
                                 required: true,
                                 category: doc,
                                 type: type
                             }
-                            Field.create(field)
-                                .then(field => res.status(201).json(doc));
-                        });
+                            return Field.create(field)
+                        })
+                        .then(() => {
+                            return Type.findOne({ value: 'text' });
+                        })
+                        .then(type => {
+                            let field = {
+                                title: 'Title',
+                                required: true,
+                                category: doc,
+                                type: type
+                            }
+                            return Field.create(field)
+                        })
+                        .then(field => res.status(201).json(doc));
+                } else if (doc.type === 'Attachments') {
+                    Type.findOne({ value: 'file' })
+                        .then(type => {
+                            let field = {
+                                title: 'File',
+                                required: true,
+                                category: doc,
+                                type: type
+                            }
+                            return Field.create(field);
+                        })
+                        .then(() => {
+                            return Type.findOne({ value: 'text' });
+                        })
+                        .then(type => {
+                            let field = {
+                                title: 'Title',
+                                required: true,
+                                category: doc,
+                                type: type
+                            }
+                            return Field.create(field);
+                        })
+                        .then(() => res.status(201).json(doc));
                 } else {
                     res.status(201).json(doc)
                 }
