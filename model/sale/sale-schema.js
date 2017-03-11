@@ -5,10 +5,10 @@ const Schema = mongoose.Schema;
 
 const saleSchema = new Schema({
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-    clientName: {type: String, required: true},
+    clientName: {type: String, required: false},
     serialNumber: {type: String, required: true},
-    salesOrder: {type: String, required: true},
-    date: {type: Date, required: true},
+    salesOrder: {type: String, required: false},
+    date: {type: Date, required: false},
     dateCreate: { type: Date, default: Date.now }
 });
 
