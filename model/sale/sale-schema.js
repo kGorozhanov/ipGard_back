@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 const Product = require('./../product/product-schema');
+const StaticField = require('../static-field/static-field-schema');
 const Schema = mongoose.Schema;
 
 const saleSchema = new Schema({
@@ -10,7 +11,11 @@ const saleSchema = new Schema({
     salesOrder: {type: String, required: false, default: ''},
     version: { type: String, required: true },
     date: {type: Date, required: false},
-    dateCreate: { type: Date, default: Date.now }
+    dateCreate: { type: Date, default: Date.now },
+    fields: [{
+        field: { type: mongoose.Schema.Types.ObjectId, ref: 'StaticField' },
+        value: mongoose.Schema.Types.Mixed
+    }]
 });
 
 saleSchema.plugin(mongoosePaginate);

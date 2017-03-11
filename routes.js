@@ -7,6 +7,7 @@ const product = require('./model/product/product-router');
 const sale = require('./model/sale/sale-router');
 const category = require('./model/category/category-router');
 const field = require('./model/field/field-router');
+const staticField = require('./model/static-field/static-field-router');
 const type = require('./model/type/type-router');
 const document = require('./model/document/document-router');
 const upload = require('./model/upload/upload-router');
@@ -32,6 +33,8 @@ router.use('/sales', sale);
 router.use('/categories', category);
 
 router.use('/fields', field);
+
+router.use('/static-fields', staticField);
 
 router.use('/types', type);
 
