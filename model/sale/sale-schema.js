@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 
 const saleSchema = new Schema({
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-    clientName: {type: String, required: false},
-    serialNumber: {type: String, required: true},
-    salesOrder: {type: String, required: false},
+    clientName: {type: String, required: false, default: ''},
+    serialNumber: {type: String, required: true, default: ''},
+    salesOrder: {type: String, required: false, default: ''},
     date: {type: Date, required: false},
     dateCreate: { type: Date, default: Date.now }
 });
