@@ -24,6 +24,9 @@ class SaleController extends Controller {
             if (req.query.serialNumber) {
                 query.serialNumber = new RegExp(req.query.serialNumber);
             }
+            if (req.query.version) {
+                query.version = new RegExp(req.query.version);
+            }
             if (req.query.dateFrom) {
                 query.date = query.date || {};
                 query.date['$gte'] = req.query['dateFrom'];
