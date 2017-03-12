@@ -10,5 +10,6 @@ router.delete('/:id', auth.hasAnyRole(accessToChange), (...args) => controller.r
 router.put('/:id', auth.hasAnyRole(accessToChange), (...args) => controller.update(...args));
 router.get('/:id', auth.hasAnyRole(accessToGet), (...args) => controller.findById(...args));
 router.post('/', auth.hasAnyRole(accessToChange), (...args) => controller.create(...args));
+router.post('/collection', auth.hasAnyRole(accessToChange), (...args) => controller.createCollection(...args));
 
 module.exports = router;
