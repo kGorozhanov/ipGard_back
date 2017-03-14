@@ -6,6 +6,10 @@ const Schema = mongoose.Schema;
 
 const saleSchema = new Schema({
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+    _productModel: { type: String, required: true },
+    _productPartNumber: { type: String, required: true },
+    _productUpc: { type: String, required: true },
+    _productDescription: { type: String, required: true },
     clientName: {type: String, required: false, default: ''},
     serialNumber: {type: String, required: true, default: ''},
     salesOrder: {type: String, required: false, default: ''},

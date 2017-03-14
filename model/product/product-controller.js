@@ -27,46 +27,41 @@ class ProductController extends Controller {
             }
         }
         return this.model.paginate(query, options)
-                .then(collection => res.status(200).json(collection))
-                .catch(err => next(err));
-        // if (query.serialNumber) {
-        //     return Sale.findOne({serialNumber: query.serialNumber})
-        //         .then(sale => {
-        //             if(!sale) {
-        //                 return {
-        //                     docs: [],
-        //                     total: 0,
-        //                     limit: options.limit,
-        //                     page: 1,
-        //                     pages: 1
-        //                 }
-        //             }
-        //             return this.model.paginate({_id: sale.product}, options)
-        //         })
-        //         .then(collection => res.status(200).json(collection))
-        //         .catch(err => next(err));
-        // } else {
-        //     return this.model.paginate(query, options)
-        //         .then(collection => res.status(200).json(collection))
-        //         .catch(err => next(err));
-        // }
+            .then(collection => res.status(200).json(collection))
+            .catch(err => next(err));
+    }
+
+    update(req, res, next) {
+        const conditions = { _id: req.params.id };
+
+        this.model.update(conditions, req.body)
+            .then(doc => {
+                if (!doc) { return res.status(404).end(); }
+                return this.model.findById(req.params.id)
+            })
+            .then(product => {
+                let body = {
+                    _productModel: req.body.model,
+                    _productPartNumber: req.body.partNumber,
+                    _productUpc: req.body.upc,
+                    _productDescription: req.body.description
+                };
+                return Sale.update({ product: product._id }, body)
+                    .then(() => product);
+            })
+            .then(doc => res.status(200).json(doc))
+            .catch(err => next(err));
     }
 
     remove(req, res, next) {
         this.model.remove(req.params.id)
             .then(doc => {
                 if (!doc) { return res.status(404).end(); }
-                Document.find({ product: doc._id })
-                    .then(documents => {
-                        async.eachSeries(documents, (document, asyncdone) => {
-                            Document.remove(document._id)
-                                .then(res => asyncdone())
-                                .catch(err => asyncdone(null, err));
-                        }, () => {
-                            return res.status(204).end();
-                        });
-                    });
+                return Document.removeCollection({ product: doc._id })
+                    .then(() => doc);
             })
+            .then(doc => Sale.removeCollection({ product: doc._id }))
+            .then(() => res.status(204).end())
             .catch(err => next(err));
     }
 }
