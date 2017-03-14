@@ -8,5 +8,6 @@ router.delete('/:id', auth.isAuthenticated(), (...args) => controller.remove(...
 router.put('/:id', auth.isAuthenticated(), (...args) => controller.update(...args));
 router.get('/:id', auth.isAuthenticated(), (...args) => controller.findById(...args));
 router.post('/', auth.isAuthenticated(), (...args) => controller.create(...args));
+router.post('/collection', auth.isAuthenticated(), (...args) => controller.createCollection(...args));
 
 module.exports = router;
