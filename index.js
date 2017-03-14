@@ -50,7 +50,6 @@ app.use(session({
     db: 'ipgard'
   })
 }));
-
 app.listen(config.server.port, () => {
   console.log(`Magic happens on port ${config.server.port}`);
 });

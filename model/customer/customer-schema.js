@@ -12,6 +12,7 @@ const customerSchema = new Schema({
     email: { type: String, required: true },
     state: { type: String, required: true },
     country: { type: String, required: true },
+    salesRep: { type: String, default: '' },
     dateCreate: { type: Date, default: Date.now }
 });
 
