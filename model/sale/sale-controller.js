@@ -14,6 +14,9 @@ class SaleController extends Controller {
                 sale._productPartNumber = product.partNumber;
                 sale._productUpc = product.upc;
                 sale._productDescription = product.description;
+                if(sale.customer) {
+                    sale._customerName = sale.customer.name;
+                }
                 return this.model.create(sale)
             })
             .then(doc => res.status(201).json(doc))
@@ -28,6 +31,9 @@ class SaleController extends Controller {
                     sale._productPartNumber = product.partNumber;
                     sale._productUpc = product.upc;
                     sale._productDescription = product.description;
+                    if(sale.customer) {
+                        sale._customerName = sale.customer.name;
+                    }
                     return sale;
                 });
                 return this.model.createCollection(collection)
@@ -40,6 +46,7 @@ class SaleController extends Controller {
         let options = {};
         options.populate = [
             { path: 'product' },
+            { path: 'customer' },
             { path: 'fields.field' },
             { path: 'fields.field.type', model: 'Type' }
         ];
@@ -52,6 +59,8 @@ class SaleController extends Controller {
                 options.sort = req.query.sort.replace(/product.upc/, '_productUpc')
             } else if(req.query.sort.indexOf('product.description') !== -1) {
                 options.sort = req.query.sort.replace(/product.description/, '_productDescription')
+            } else if(req.query.sort.indexOf('customerName') !== -1) {
+                options.sort = req.query.sort.replace(/customerName/, '_customerName');
             } else {
                 options.sort = req.query.sort;
             }
