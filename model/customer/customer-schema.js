@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
+const StaticField = require('../static-field/static-field-schema');
 const Schema = mongoose.Schema;
 
 const customerSchema = new Schema({
@@ -13,7 +14,11 @@ const customerSchema = new Schema({
     state: { type: String, required: true },
     country: { type: String, required: true },
     salesRep: { type: String, default: '' },
-    dateCreate: { type: Date, default: Date.now }
+    dateCreate: { type: Date, default: Date.now },
+    fields: [{
+        field: { type: mongoose.Schema.Types.ObjectId, ref: 'StaticField' },
+        value: mongoose.Schema.Types.Mixed
+    }]
 });
 
 customerSchema.plugin(mongoosePaginate);
