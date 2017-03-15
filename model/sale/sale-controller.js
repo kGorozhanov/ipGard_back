@@ -87,6 +87,8 @@ class SaleController extends Controller {
                     query['_productUpc'] = new RegExp(req.query[key], 'i');
                 } else if (key === 'description') {
                     query['_productDescription'] = new RegExp(req.query[key], 'i');
+                } else if (key === 'customerName') {
+                    query['_customerName'] = new RegExp(req.query[key], 'i');
                 } else if (key === 'dateFrom') {
                     query.date = query.date || {};
                     query.date['$gte'] = req.query[key];
