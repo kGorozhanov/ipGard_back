@@ -66,7 +66,7 @@ class CustomerController extends Controller {
         this.model.remove(req.params.id)
             .then(doc => {
                 if (!doc) { return res.status(404).end(); }
-                return Sale.update({ customer: doc._id }, { _customerName: '', '$pull': { customer: doc._id }})
+                return Sale.update({ customer: doc._id }, { _customerName: '', customer: null})
             })
             .then(() => res.status(204).end())
             .catch(err => next(err));
