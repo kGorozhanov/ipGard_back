@@ -25,6 +25,10 @@ class CustomerController extends Controller {
                 query[key] = new RegExp(req.query[key], 'i');
             }
         }
+        options.populate = [
+            { path: 'fields.field' },
+            { path: 'fields.field.type', model: 'Type' }
+        ];
         return this.model.paginate(query, options)
             .then(collection => res.status(200).json(collection))
             .catch(err => next(err));
