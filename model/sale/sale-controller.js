@@ -47,8 +47,7 @@ class SaleController extends Controller {
         options.populate = [
             { path: 'product' },
             { path: 'customer' },
-            { path: 'fields.field' },
-            { path: 'fields.field.type', model: 'Type' }
+            { path: 'fields.field' }
         ];
         if (req.query.sort) {
             if (req.query.sort.indexOf('product.model') !== -1) {
@@ -101,6 +100,16 @@ class SaleController extends Controller {
             }
         }
         return this.model.paginate(query, options)
+            .then(collection => {
+                return this.model.populate(collection.docs, { 
+                    path: 'fields.field.type', 
+                    model: 'Type' 
+                })
+                .then(docs => {
+                    collection.docs = docs;
+                    return collection;
+                });
+            })
             .then(collection => res.status(200).json(collection))
             .catch(err => next(err));
     }

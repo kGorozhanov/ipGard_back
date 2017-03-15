@@ -27,9 +27,18 @@ class CustomerController extends Controller {
         }
         options.populate = [
             { path: 'fields.field' },
-            { path: 'fields.field.type' }
         ];
         return this.model.paginate(query, options)
+            .then(collection => {
+                return this.model.populate(collection.docs, { 
+                    path: 'fields.field.type', 
+                    model: 'Type' 
+                })
+                .then(docs => {
+                    collection.docs = docs;
+                    return collection;
+                });
+            })
             .then(collection => res.status(200).json(collection))
             .catch(err => next(err));
     }
