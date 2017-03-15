@@ -14,7 +14,7 @@ class SaleController extends Controller {
                 sale._productPartNumber = product.partNumber;
                 sale._productUpc = product.upc;
                 sale._productDescription = product.description;
-                if(sale.customer) {
+                if (sale.customer) {
                     sale._customerName = sale.customer.name;
                 }
                 return this.model.create(sale)
@@ -31,7 +31,7 @@ class SaleController extends Controller {
                     sale._productPartNumber = product.partNumber;
                     sale._productUpc = product.upc;
                     sale._productDescription = product.description;
-                    if(sale.customer) {
+                    if (sale.customer) {
                         sale._customerName = sale.customer.name;
                     }
                     return sale;
@@ -51,15 +51,15 @@ class SaleController extends Controller {
             { path: 'fields.field.type', model: 'Type' }
         ];
         if (req.query.sort) {
-            if(req.query.sort.indexOf('product.model') !== -1) {
+            if (req.query.sort.indexOf('product.model') !== -1) {
                 options.sort = req.query.sort.replace(/product.model/, '_productModel')
-            } else if(req.query.sort.indexOf('product.partNumber') !== -1) {
+            } else if (req.query.sort.indexOf('product.partNumber') !== -1) {
                 options.sort = req.query.sort.replace(/product.model/, '_productPartNumber')
-            } else if(req.query.sort.indexOf('product.upc') !== -1) {
+            } else if (req.query.sort.indexOf('product.upc') !== -1) {
                 options.sort = req.query.sort.replace(/product.upc/, '_productUpc')
-            } else if(req.query.sort.indexOf('product.description') !== -1) {
+            } else if (req.query.sort.indexOf('product.description') !== -1) {
                 options.sort = req.query.sort.replace(/product.description/, '_productDescription')
-            } else if(req.query.sort.indexOf('customerName') !== -1) {
+            } else if (req.query.sort.indexOf('customerName') !== -1) {
                 options.sort = req.query.sort.replace(/customerName/, '_customerName');
             } else {
                 options.sort = req.query.sort;
@@ -102,6 +102,20 @@ class SaleController extends Controller {
         }
         return this.model.paginate(query, options)
             .then(collection => res.status(200).json(collection))
+            .catch(err => next(err));
+    }
+
+    update(req, res, next) {
+        const conditions = { _id: req.params.id };
+        let sale = req.body;
+        if(sale.customer) {
+            sale._customerName = sale.customer.name;
+        }
+        this.model.update(conditions, sale)
+            .then(doc => {
+                if (!doc) { return res.status(404).end(); }
+                return res.status(200).json(doc)
+            })
             .catch(err => next(err));
     }
 }
