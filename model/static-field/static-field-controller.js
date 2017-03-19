@@ -17,18 +17,37 @@ class StaticFieldController extends Controller {
             .then(doc => {
                 return mongoose.model(doc.model).find({})
                     .then(documents => {
-                        return async.eachSeries(documents, (document, asyncdone) => {
-                            document.fields.push({
-                                field: doc,
-                                value: null
+                        if(doc.model !== 'Rma') {
+                            return async.eachSeries(documents, (document, asyncdone) => {
+                                document.fields.push({
+                                    field: doc,
+                                    value: null
+                                });
+                                document.save()
+                                    .then(result => asyncdone())
+                                    .catch(err => asyncdone(null, err));
+                            }, (err) => {
+                                if (err) next(err);
+                                res.status(201).json(doc)
                             });
-                            document.save()
-                                .then(result => asyncdone())
-                                .catch(err => asyncdone(null, err));
-                        }, (err) => {
-                            if (err) next(err)
-                            res.status(201).json(doc)
-                        });
+                        } else {
+                            return async.eachSeries(documents, (document, asyncdone) => {
+                                return async.eachSeries(document.products, (product, done) => {
+                                    product.fields.push({
+                                        field: doc,
+                                        value: null
+                                    });
+                                }, (err) => {
+                                    if(err) asyncdone(null, err);
+                                    document.save()
+                                        .then(result => asyncdone())
+                                        .catch(err => asyncdone(null, err));
+                                });
+                            }, (err) => {
+                                if (err) next(err);
+                                res.status(201).json(doc)
+                            });
+                        }
                     })
             })
             .catch(err => next(err));

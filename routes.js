@@ -12,6 +12,7 @@ const staticField = require('./model/static-field/static-field-router');
 const type = require('./model/type/type-router');
 const document = require('./model/document/document-router');
 const upload = require('./model/upload/upload-router');
+const rma = require('./model/rma/rma-router');
 // const auth = require('./auth/auth.service');
 
 
@@ -42,5 +43,7 @@ router.use('/static-fields', staticField);
 router.use('/types', type);
 
 router.use('/documents', document);
+
+router.use('/rma', rma);
 
 module.exports = router;

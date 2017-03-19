@@ -1,7 +1,6 @@
-var Controller = require('../../lib/controller');
-var Customer = require('./customer-facade');
-var Sale = require('./../sale/sale-facade');
-var async = require('async');
+const Controller = require('../../lib/controller');
+const Customer = require('./customer-facade');
+const Sale = require('./../sale/sale-facade');
 
 class CustomerController extends Controller {
 

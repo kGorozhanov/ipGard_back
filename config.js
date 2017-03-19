@@ -9,6 +9,6 @@ const config = {
   secrets: {
     session: 'ipgard-secret'
   },
-  userRoles: ['admin', 'productionAdmin', 'productionUser', 'salesAdmin', 'salesUser']
+  userRoles: ['admin', 'productionAdmin', 'productionUser', 'salesAdmin', 'salesUser', 'support']
 };
 module.exports = config;
