@@ -24,8 +24,8 @@ class RmaController extends Controller {
             }
         }
         options.populate = [
-            {path: 'products.sale'},
-            {path: 'products.fields.field'},
+            { path: 'products.sale' },
+            { path: 'products.fields.field' },
         ];
         return this.model.paginate(query, options)
             .then(collection => {
@@ -42,6 +42,19 @@ class RmaController extends Controller {
             .then(collection => res.status(200).json(collection))
             .catch(err => next(err));
     }
+
+    findById(req, res, next) {
+        return this.model.findById(req.params.id)
+            .then(doc => this.model.populate(doc, { path: 'customer' }))
+            .then(doc => this.model.populate(doc, { path: 'products.sale' }))
+            .then(doc => this.model.populate(doc, { path: 'products.fields.field' }))
+            .then(doc => {
+                if (!doc) { return res.status(404).end(); }
+                return res.status(200).json(doc);
+            })
+            .catch(err => next(err));
+    }
+
 }
 
 module.exports = new RmaController(Rma);
