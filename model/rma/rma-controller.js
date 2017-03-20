@@ -1,7 +1,7 @@
 const Controller = require('../../lib/controller');
-const Customer = require('./customer-facade');
+const Rma = require('./rma-facade');
 
-class CustomerController extends Controller {
+class RmaController extends Controller {
 
     find(req, res, next) {
         let options = {};
@@ -44,4 +44,4 @@ class CustomerController extends Controller {
     }
 }
 
-module.exports = new CustomerController(Customer);
+module.exports = new RmaController(Rma);
