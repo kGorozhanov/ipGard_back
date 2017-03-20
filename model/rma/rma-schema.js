@@ -13,13 +13,13 @@ const rmaSchema = new Schema({
     customer: {type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true},
     products: [{
         sale: {type: mongoose.Schema.Types.ObjectId, ref: 'Sale', required: true},
-        open: { type: Boolean, default: true },
+        closed: { type: Boolean, default: false },
         fields: [{
             field: {type: mongoose.Schema.Types.ObjectId, ref: 'StaticField'},
             value: mongoose.Schema.Types.Mixed
         }]
     }],
-    open: { type: Boolean, default: true },
+    closed: { type: Boolean, default: false },
     dateCreate: {type: Date, default: Date.now}
 });
 
