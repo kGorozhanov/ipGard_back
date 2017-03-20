@@ -47,7 +47,7 @@ class RmaController extends Controller {
         return this.model.findById(req.params.id)
             .then(doc => this.model.populate(doc, { path: 'customer' }))
             .then(doc => this.model.populate(doc, { path: 'products.sale' }))
-            .then(doc => this.model.populate(doc, { path: 'products.sale.customer' }))
+            .then(doc => this.model.populate(doc, { path: 'products.sale.customer', model: 'Customer' }))
             .then(doc => this.model.populate(doc, { path: 'products.fields.field' }))
             .then(doc => this.model.populate(doc, { path: 'products.fields.field.type', model: 'Type' }))
             .then(doc => {
