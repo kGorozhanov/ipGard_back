@@ -48,6 +48,7 @@ class RmaController extends Controller {
             .then(doc => this.model.populate(doc, { path: 'customer' }))
             .then(doc => this.model.populate(doc, { path: 'products.sale' }))
             .then(doc => this.model.populate(doc, { path: 'products.fields.field' }))
+            .then(doc => this.model.populate(doc, { path: 'products.fields.field.type' }))
             .then(doc => {
                 if (!doc) { return res.status(404).end(); }
                 return res.status(200).json(doc);
