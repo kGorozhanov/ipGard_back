@@ -9,6 +9,7 @@ const rmaSchema = new Schema({
     formNumber: {type: String, required: true},
     rxCarrier: {type: String, default: ''},
     rxTracking: {type: String, default: ''},
+    totalCount: {type: Number, default: 0},
     description: {type: String, default: ''},
     customer: {type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true},
     products: [{
