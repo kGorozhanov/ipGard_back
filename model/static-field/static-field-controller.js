@@ -17,7 +17,7 @@ class StaticFieldController extends Controller {
             .then(doc => {
                 return mongoose.model(doc.model).find({})
                     .then(documents => {
-                        if(doc.model !== 'Rma') {
+                        if (doc.model !== 'Rma') {
                             return async.eachSeries(documents, (document, asyncdone) => {
                                 document.fields.push({
                                     field: doc,
@@ -38,7 +38,7 @@ class StaticFieldController extends Controller {
                                         value: null
                                     });
                                 }, (err) => {
-                                    if(err) asyncdone(null, err);
+                                    if (err) asyncdone(null, err);
                                     document.save()
                                         .then(result => asyncdone())
                                         .catch(err => asyncdone(null, err));
@@ -59,20 +59,39 @@ class StaticFieldController extends Controller {
                 if (!doc) { return res.status(404).end(); }
                 mongoose.model(doc.model).find({})
                     .then(documents => {
-                        return async.eachSeries(documents, (document, asyncdone) => {
-                            for(var i = 0; i < document.fields.length; i++) {
-                                if(document.fields[i].field.equals(doc._id)) {
-                                    document.fields.splice(i, 1);
-                                    break;
+                        if (doc.model === 'Rma') {
+                            return async.eachSeries(documents, (document, asyncdone) => {
+                                document.products.forEach(product => {
+                                    for (var i = 0; i < product.fields.length; i++) {
+                                        if (product.fields[i].field.equals(doc._id)) {
+                                            product.fields.splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                })
+                                mongoose.model(doc.model).update({ _id: document._id }, document)
+                                    .then(result => asyncdone())
+                                    .catch(err => asyncdone(null, err));
+                            }, (err) => {
+                                if (err) next(err)
+                                return res.status(204).end();
+                            });
+                        } else {
+                            return async.eachSeries(documents, (document, asyncdone) => {
+                                for (var i = 0; i < document.fields.length; i++) {
+                                    if (document.fields[i].field.equals(doc._id)) {
+                                        document.fields.splice(i, 1);
+                                        break;
+                                    }
                                 }
-                            }
-                            mongoose.model(doc.model).update({_id: document._id}, document)
-                                .then(result => asyncdone())
-                                .catch(err => asyncdone(null, err));
-                        }, (err) => {
-                            if (err) next(err)
-                            return res.status(204).end();
-                        });
+                                mongoose.model(doc.model).update({ _id: document._id }, document)
+                                    .then(result => asyncdone())
+                                    .catch(err => asyncdone(null, err));
+                            }, (err) => {
+                                if (err) next(err)
+                                return res.status(204).end();
+                            });
+                        }
                     })
             })
             .catch(err => next(err));
