@@ -2,7 +2,7 @@ const controller = require('./sale-controller');
 const Router = require('express').Router;
 const auth = require('../../auth/auth.service');
 const router = new Router();
-let accessToGet = ['admin', 'salesAdmin', 'salesUser'];
+let accessToGet = ['admin', 'salesAdmin', 'salesUser', 'support'];
 let accessToChange = ['admin', 'salesAdmin'];
 
 router.get('/', auth.hasAnyRole(accessToGet), (...args) => controller.find(...args));
