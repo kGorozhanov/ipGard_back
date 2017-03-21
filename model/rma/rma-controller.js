@@ -20,7 +20,15 @@ class RmaController extends Controller {
         let query = {};
         if (req.query) {
             for (let key in req.query) {
-                query[key] = new RegExp(req.query[key], 'i');
+                if (key === 'dateFrom') {
+                    query.date = query.date || {};
+                    query.date['$gte'] = req.query[key];
+                } else if (key === 'dateTo') {
+                    query.date = query.date || {};
+                    query.date['$lte'] = req.query[key];
+                } else {
+                    query[key] = new RegExp(req.query[key], 'i');
+                }
             }
         }
         options.populate = [
