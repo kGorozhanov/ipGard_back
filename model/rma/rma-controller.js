@@ -21,11 +21,11 @@ class RmaController extends Controller {
         if (req.query) {
             for (let key in req.query) {
                 if (key === 'dateFrom') {
-                    query.date = query.date || {};
-                    query.date['$gte'] = req.query[key];
+                    query.dateCreate = query.dateCreate || {};
+                    query.dateCreate['$gte'] = req.query[key];
                 } else if (key === 'dateTo') {
-                    query.date = query.date || {};
-                    query.date['$lte'] = req.query[key];
+                    query.dateCreate = query.dateCreate || {};
+                    query.dateCreate['$lte'] = req.query[key];
                 } else {
                     query[key] = new RegExp(req.query[key], 'i');
                 }
