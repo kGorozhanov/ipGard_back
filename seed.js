@@ -11,10 +11,50 @@ module.exports = {
                         name: 'Super Admin',
                         email: 'superAdmin@user.com',
                         role: 'admin',
-                        password: 'superAdmin',
+                        password: '123',
                         provider: 'local',
                     })
                     .catch(err => console.log('error on create admin user', err));
+                    User.create({
+                        name: 'Production Admin',
+                        email: 'productionAdmin@user.com',
+                        role: 'productionAdmin',
+                        password: '123',
+                        provider: 'local',
+                    })
+                    .catch(err => console.log('error on create productionAdmin user', err));
+                    User.create({
+                        name: 'Production User',
+                        email: 'productionUser@user.com',
+                        role: 'productionUser',
+                        password: '123',
+                        provider: 'local',
+                    })
+                    .catch(err => console.log('error on create Production user', err));
+                    User.create({
+                        name: 'Sales Admin',
+                        email: 'salesAdmin@user.com',
+                        role: 'salesAdmin',
+                        password: '123',
+                        provider: 'local',
+                    })
+                    .catch(err => console.log('error on create salesAdmin user', err));
+                    User.create({
+                        name: 'Sales User',
+                        email: 'salesUser@user.com',
+                        role: 'salesUser',
+                        password: '123',
+                        provider: 'local',
+                    })
+                    .catch(err => console.log('error on create salesUser user', err));
+                    User.create({
+                        name: 'Support User',
+                        email: 'support@user.com',
+                        role: 'support',
+                        password: '123',
+                        provider: 'local',
+                    })
+                    .catch(err => console.log('error on create Support user', err));
                 }
             });
     },

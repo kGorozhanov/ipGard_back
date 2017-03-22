@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
 const connectMongo = require('connect-mongo');
+const compression = require('compression');
 var MongoStore = connectMongo(session);
 
 const config = require('./config');
@@ -32,6 +33,9 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   next();
 });
+//enable gz files
+app.use(compression());
+
 app.use('/api', routes);
 app.use(express.static('client'));
 

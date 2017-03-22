@@ -32,17 +32,15 @@ class StaticFieldController extends Controller {
                             });
                         } else {
                             return async.eachSeries(documents, (document, asyncdone) => {
-                                return async.eachSeries(document.products, (product, done) => {
+                                document.products.forEach(product => {
                                     product.fields.push({
                                         field: doc,
                                         value: null
                                     });
-                                }, (err) => {
-                                    if (err) asyncdone(null, err);
-                                    document.save()
+                                });
+                                document.save()
                                         .then(result => asyncdone())
                                         .catch(err => asyncdone(null, err));
-                                });
                             }, (err) => {
                                 if (err) next(err);
                                 res.status(201).json(doc)
