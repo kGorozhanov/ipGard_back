@@ -12,6 +12,7 @@ const rmaSchema = new Schema({
     totalCount: {type: Number, default: 0},
     description: {type: String, default: ''},
     customer: {type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true},
+    _customerName: {type: String, required: true},
     products: [{
         sale: {type: mongoose.Schema.Types.ObjectId, ref: 'Sale', required: true},
         closed: { type: Boolean, default: false },
