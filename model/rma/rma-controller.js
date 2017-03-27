@@ -1,13 +1,30 @@
 const Controller = require('../../lib/controller');
+const Sale = require('../sale/sale-facade');
 const Rma = require('./rma-facade');
+const async = require('async');
 
 class RmaController extends Controller {
 
     create(req, res, next) {
-        var rma = req.body;
+        const rma = req.body;
         rma._customerName = rma.customer.name;
+        const sales = rma.products.map(product => product.sale);
+
         this.model.create(rma)
-            .then(doc => res.status(201).json(doc))
+            .then(doc => {
+                return async.eachSeries(sales, (sale, done) => {
+                    const conditions = { _id: sale._id };
+
+                    Sale.update(conditions, sale)
+                        .then(updated => {
+                            done(updated);
+                        })
+                        .catch(err => done(null, err));
+                }, (err) => {
+                    if (err) return next(err);
+                    res.status(201).json(doc)
+                })
+            })
             .catch(err => next(err));
     }
 
@@ -79,15 +96,27 @@ class RmaController extends Controller {
     }
 
     update(req, res, next) {
-        const conditions = { _id: req.params.id };
+        const rmaConditions = { _id: req.params.id };
         let rma = req.body;
-        if(rma.customer) {
+        if (rma.customer) {
             rma._customerName = rma.customer.name;
         }
-        this.model.update(conditions, rma)
+        const sales = rma.products.map(product => product.sale);
+        this.model.update(rmaConditions, rma)
             .then(doc => {
                 if (!doc) { return res.status(404).end(); }
-                return res.status(200).json(doc)
+                return async.eachSeries(sales, (sale, done) => {
+                    const conditions = { _id: sale._id };
+
+                    Sale.update(conditions, sale)
+                        .then(updated => {
+                            done(updated);
+                        })
+                        .catch(err => done(null, err));
+                }, (err) => {
+                    if (err) return next(err);
+                    res.status(200).json(doc)
+                })
             })
             .catch(err => next(err));
     }
