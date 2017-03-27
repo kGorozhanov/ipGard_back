@@ -16,8 +16,8 @@ class RmaController extends Controller {
                     const conditions = { _id: sale._id };
 
                     Sale.update(conditions, sale)
-                        .then(updated => {
-                            done(updated);
+                        .then(() => {
+                            done();
                         })
                         .catch(err => done(null, err));
                 }, (err) => {
@@ -109,8 +109,8 @@ class RmaController extends Controller {
                     const conditions = { _id: sale._id };
 
                     Sale.update(conditions, sale)
-                        .then(updated => {
-                            done(updated);
+                        .then(() => {
+                            done();
                         })
                         .catch(err => done(null, err));
                 }, (err) => {
