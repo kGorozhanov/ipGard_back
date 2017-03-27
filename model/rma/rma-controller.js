@@ -8,7 +8,7 @@ class RmaController extends Controller {
     create(req, res, next) {
         const rma = req.body;
         rma._customerName = rma.customer.name;
-        const sales = rma.products.map(product => product.sale.sale);
+        const sales = rma.products.map(product => product.sale);
 
         this.model.create(rma)
             .then(doc => {
@@ -101,7 +101,7 @@ class RmaController extends Controller {
         if (rma.customer) {
             rma._customerName = rma.customer.name;
         }
-        const sales = rma.products.map(product => product.sale.sale);
+        const sales = rma.products.map(product => product.sale);
         this.model.update(rmaConditions, rma)
             .then(doc => {
                 if (!doc) { return res.status(404).end(); }
