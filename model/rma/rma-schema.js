@@ -22,6 +22,7 @@ const rmaSchema = new Schema({
         }]
     }],
     closed: { type: Boolean, default: false },
+    closedCount: { type: Number, default: 0 },
     dateCreate: {type: Date, default: Date.now}
 });
 
