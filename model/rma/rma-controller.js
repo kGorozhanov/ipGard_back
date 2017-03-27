@@ -38,8 +38,6 @@ class RmaController extends Controller {
                 } else if (key === 'dateTo') {
                     query.dateCreate = query.dateCreate || {};
                     query.dateCreate['$lte'] = req.query[key];
-                } else if(key === 'customer.name') {
-                    query._customerName = new RegExp(req.query[key], 'i');
                 } else {
                     query[key] = new RegExp(req.query[key], 'i');
                 }
