@@ -12,7 +12,7 @@ class RmaController extends Controller {
 
         this.model.create(rma)
             .then(doc => {
-                return async.eachSeries(sales, (sale, done) => {
+                async.eachSeries(sales, (sale, done) => {
                     const conditions = { _id: sale._id };
 
                     Sale.update(conditions, sale)
@@ -105,7 +105,7 @@ class RmaController extends Controller {
         this.model.update(rmaConditions, rma)
             .then(doc => {
                 if (!doc) { return res.status(404).end(); }
-                return async.eachSeries(sales, (sale, done) => {
+                async.eachSeries(sales, (sale, done) => {
                     const conditions = { _id: sale._id };
 
                     Sale.update(conditions, sale)
