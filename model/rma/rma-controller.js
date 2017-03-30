@@ -54,7 +54,9 @@ class RmaController extends Controller {
                     query.dateCreate['$gte'] = req.query[key];
                 } else if (key === 'dateTo') {
                     query.dateCreate = query.dateCreate || {};
-                    query.dateCreate['$lte'] = req.query[key];
+                    let date = new Date(req.query[key]);
+                    date.setDate(date.getDate() + 1);
+                    query.dateCreate['$lte'] = date;
                 } else {
                     query[key] = new RegExp(req.query[key], 'i');
                 }
